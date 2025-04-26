@@ -26,6 +26,13 @@ pub fn is_valid_package_name(package: &str) -> bool {
 }
 
 impl MessagePath {
+    /// Create full message path, with naming rules unchecked
+    pub fn new(package: impl Into<String>, name: impl Into<String>) -> Result<Self> {
+        let package = package.into();
+        let name = name.into();
+        Ok(Self { package, name })
+    }
+
     /// Create full message path, with naming rules checked
     ///
     /// Naming rules are based on [REP 144](https://www.ros.org/reps/rep-0144.html).
@@ -49,7 +56,7 @@ impl MessagePath {
     /// # Ok(())
     /// # }
     /// ```
-    pub fn new(package: impl Into<String>, name: impl Into<String>) -> Result<Self> {
+    pub fn new_compliant(package: impl Into<String>, name: impl Into<String>) -> Result<Self> {
         let package = package.into();
         let name = name.into();
         if !is_valid_package_name(&package) {
